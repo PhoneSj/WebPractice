@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>轮播图</title>
+    <style type="text/css">
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    li {
+        list-style-type: none;
+    }
+    
+    .slider {
+        width: 490px;
+        height: 170px;
+        margin: 0 auto;
+        margin-top: 10px;
+        position: relative;
+    }
+    
+    .slider ul {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+    
+    .slider ul li {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        margin-right: 5px;
+        text-align: center;
+        vertical-align: center;
+        border-radius: 50%;
+        cursor: pointer;
+        float: left;
+    }
+    </style>
+    <script type="text/javascript">
+    function changeImg(i) {
+        var imgNode = document.getElementById("pic");
+        console.log("img/0" + i + ".jpg");
+        imgNode.src = "img/0" + i + ".jpg";
+    }
+    </script>
+</head>
+
+<body>
+    <div class="slider">
+        <img id="pic" src="img/01.jpg">
+        <ul>
+            <li onclick="changeImg(1)">1</li>
+            <li onclick="changeImg(2)">2</li>
+            <li onclick="changeImg(3)">3</li>
+            <li onclick="changeImg(4)">4</li>
+            <li onclick="changeImg(5)">5</li>
+        </ul>
+    </div>
+</body>
+
+</html>

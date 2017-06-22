@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>机械表</title>
+    <style type="text/css">
+    .clock {
+        width: 600px;
+        height: 600px;
+        margin: 100px auto;
+        position: relative;
+        background-image: url(img/clock.jpg);
+        background-repeat: no-repeat;
+    }
+    
+    .clock div {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-repeat: no-repeat;
+        background-position: center center; //使图片居中
+    }
+    
+    .hour {
+        background-image: url(img/hour.png);
+    }
+    
+    .minute {
+        background-image: url(img/minute.png);
+    }
+    
+    .second {
+        background-image: url(img/second.png);
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        hour = document.getElementsByClassName("hour")[0];
+        minute = document.getElementsByClassName("minute")[0];
+        second = document.getElementsByClassName("second")[0];
+        setInterval(clock, 50);
+    }
+
+    function clock() {
+        var date = new Date();
+        var mi = date.getMilliseconds();
+        var ss = date.getSeconds() + mi / 1000;
+        var mm = date.getMinutes() + ss / 60;
+        var hh = date.getHours() + mm / 60;
+        hour.style.transform = 'rotate(' + hh * 360 / 12 + 'deg)';
+        minute.style.transform = 'rotate(' + mm * 360 / 60 + 'deg)';
+        second.style.transform = 'rotate(' + ss * 360 / 60 + 'deg)';
+    }
+    </script>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="hour"></div>
+        <div class="minute"></div>
+        <div class="second"></div>
+    </div>
+</body>
+
+</html>

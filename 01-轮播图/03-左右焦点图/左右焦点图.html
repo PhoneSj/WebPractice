@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>左右焦点图</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style-type: none;
+    }
+    
+    a {
+        text-decoration: none;
+        cursor: default;
+    }
+    
+    .box {
+        width: 520px;
+        height: 280px;
+        margin: 100px auto;
+        padding: 5px;
+        border: 1px solid gray;
+    }
+    
+    .inner {
+        width: 520px;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    
+    .inner ul {
+        width: 1000%;
+        height: 280px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    .inner ul li {
+        float: left;
+    }
+    
+    .arrow {
+        width: 520px;
+        height: 40px;
+        position: absolute;
+        margin-top: 120px;
+    }
+    
+    .arrow span {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        display: inline-block;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: "黑体";
+        position: absolute;
+        opacity: 0.5;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .arrow #left {
+        left: 0;
+    }
+    
+    .arrow #right {
+        right: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="box">
+        <div class="inner">
+            <ul>
+                <li>
+                    <a href="#"><img src="img/1.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/2.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/3.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/4.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/5.jpg" alt=""></a>
+                </li>
+            </ul>
+            <div class="arrow">
+                <span id="left">&lt;</span>
+                <span id="right">&gt;</span>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var box = document.getElementById("box");
+    var inner = box.children[0];
+    var ul = inner.children[0];
+    var lis = ul.children;
+    var arrow = inner.children[1];
+    var left = arrow.children[0];
+    var right = arrow.children[1];
+    var imgWidth = inner.offsetWidth;
+    console.log(imgWidth);
+    var curIndex = 0; //当前选中的是第几张图片
+    var timer = null;
+
+    inner.onmouseover = function() {
+        arrow.style.display = "block";
+    }
+    inner.onmouseout = function() {
+        arrow.style.display = "none";
+    }
+    left.onclick = function() {
+        if (curIndex <= 0) {
+            curIndex = 0;
+            return;
+        } else {
+            curIndex--;
+            animate(ul, -curIndex * imgWidth);
+        }
+    }
+    right.onclick = function() {
+        if (curIndex >= lis.length - 1) {
+            curIndex = lis.length - 1;
+            return;
+        } else {
+            curIndex++;
+            animate(ul, -curIndex * imgWidth);
+        }
+    }
+
+    function animate(node, distance) {
+        var step = 20 * (distance > node.offsetLeft ? 1 : -1);
+        clearInterval(timer);
+        timer = setInterval(function() {
+            var curX = node.offsetLeft;
+            if (Math.abs(curX - distance) > Math.abs(step)) {
+                curX += step;
+                node.style.left = curX + "px";
+            } else {
+                node.style.left = distance + "px";
+                clearInterval(timer);
+            }
+        }, 20);
+    }
+    </script>
+</body>
+
+</html>

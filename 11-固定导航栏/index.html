@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>固定导航栏</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .wrap {
+        width: 1423px;
+        margin: 0 auto;
+    }
+    
+    .wrap div {
+        text-align: center;
+    }
+    
+    .wrap .top {
+        height: 168px;
+    }
+    
+    .wrap .nav {
+        height: 83px;
+    }
+    </style>
+    <script src="jquery-1.12.2.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var h = $(".top").height();
+        $(window).scroll(function() {
+            var st = $(document).scrollTop();
+            if (st >= h) {
+                $(".nav").css({
+                    "position": "fixed",
+                    "top": 0
+                });
+                //这里nav改为固定定位，脱离的文档流，会导致main会上移nav高度值的距离。所以这里通过margin-top来调整main的位置
+                $(".main").css("margin-top", $(".nav").height());
+            } else {
+                $(".nav").css("position", "static");
+                $(".main").css("margin-top", 0);
+            }
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="top">
+            <img src="img/top.png">
+        </div>
+        <div class="nav">
+            <img src="img/nav.png">
+        </div>
+        <div class="main">
+            <img src="img/main.png">
+        </div>
+    </div>
+</body>
+
+</html>

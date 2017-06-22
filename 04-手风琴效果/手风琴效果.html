@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>手风琴效果</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style-type: none;
+    }
+    
+    #box {
+        width: 1200px;
+        height: 400px;
+        margin: 50px auto;
+        border: 1px solid gray;
+        overflow: hidden;
+    }
+    
+    #box ul {
+        width: 1000%;
+    }
+    
+    #box li {
+        width: 240px;
+        height: 400px;
+        float: left;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+    var box = document.getElementById("box");
+    var ul = box.children[0];
+    var lis = ul.children;
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].style.backgroundImage = "url(img/" + (i + 1) + ".jpg)";
+        console.log("url(img/)" + (i + 1) + ".jpg");
+        lis[i].onmouseover = function() {
+            //所有li宽度变为100
+            for (var j = 0; j < lis.length; j++) {
+                animate(lis[j], {
+                    "width": 100
+                });
+            }
+            //选中的li宽度变为800
+            animate(this, {
+                "width": 800
+            });
+        }
+
+    }
+
+    box.onmouseout = function() {
+        for (var i = 0; i < lis.length; i++) {
+            animate(lis[i], {
+                "width": 240
+            })
+        }
+    }
+
+    function animate(obj, json) {
+        clearInterval(obj.timer);
+        obj.timer = setInterval(function() {
+            var flag = true;
+            for (var k in json) {
+                var leader = parseInt(getStyle(obj, k)) || 0;
+                var target = json[k];
+                var step = (target - leader) / 10;
+                step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                leader += step;
+                obj.style[k] = leader + "px";
+                if (leader != target) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                clearInterval(obj.timer);
+            }
+        }, 15);
+    }
+
+    function getStyle(obj, attr) {
+        if (window.getComputedStyle) {
+            return window.getComputedStyle(obj, null)[attr];
+        } else {
+            return obj.currentStyle[attr];
+        }
+    }
+    </script>
+</body>
+
+</html>

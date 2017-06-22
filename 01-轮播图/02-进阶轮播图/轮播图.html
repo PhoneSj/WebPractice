@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>轮播图</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style-type: none;
+    }
+    
+    a {
+        text-decoration: none;
+        cursor: default;
+    }
+    
+    .box {
+        width: 490px;
+        height: 170px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        margin: 100px auto;
+    }
+    
+    .inner {
+        width: 490px;
+        height: 170px;
+        position: relative;
+    }
+    
+    .inner ul {
+        width: 1000%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    .inner li {
+        float: left;
+    }
+    
+    .square {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+    
+    .square span {
+        display: inline-block;
+        /*加上这个属性16px的宽度才有效果*/
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        text-align: center;
+        background-color: white;
+        cursor: pointer;
+    }
+    
+    .square span.current {
+        color: white;
+        background-color: red;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="box">
+        <div class="inner">
+            <ul>
+                <li>
+                    <a href="#"><img src="img/01.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/02.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/03.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/04.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="img/05.jpg" alt=""></a>
+                </li>
+            </ul>
+            <div class="square">
+                <span class="current">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var box = document.getElementById("box");
+    var inner = box.children[0];
+    var ul = inner.children[0];
+    var lis = ul.children;
+    var square = inner.children[1];
+    var spans = square.children;
+    var imgWidth = inner.offsetWidth;
+    console.log(imgWidth);
+
+    for (var i = 0; i < spans.length; i++) {
+        var span = spans[i];
+        span.index = i;
+        span.onmouseover = function() {
+            for (var j = 0; j < spans.length; j++) {
+                spans[j].className = "";
+            }
+            this.className = "current";
+            var distance = -imgWidth * this.index;
+            animate(ul, distance);
+        }
+    }
+
+    function animate(node, distance) {
+        console.log("distance:" + distance);
+        clearInterval(node.timer);
+        node.timer = setInterval(function() {
+                var cur = node.offsetLeft;
+                var step = 20;
+                step = cur > distance ? -step : step;
+                if (Math.abs(distance - cur) > Math.abs(step)) {
+                        cur += step;
+                        node.style.left = cur + "px";
+                    } else {
+                        node.style.left = distance + "px";
+                        clearInterval(node.timer);
+                    }
+                }, 20);
+        }
+    </script>
+</body>
+
+</html>

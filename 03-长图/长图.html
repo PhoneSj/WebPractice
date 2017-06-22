@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>长图</title>
+    <style type="text/css">
+    .xiaomi {
+        width: 512px;
+        height: 400px;
+        position: relative;
+        overflow: hidden; //若子元素超出父元素范围，则不显示子元素超出的部分
+    }
+    
+    .xiaomi span {
+        width: 100%;
+        height: 50%;
+        cursor: pointer;
+        position: absolute;
+    }
+    
+    .up {
+        top: 0;
+    }
+    
+    .down {
+        bottom: 0;
+    }
+    
+    .xiaomi img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="xiaomi">
+        <img id="pic" src="img/mi.png">
+        <span class="up" id="goUp"></span>
+        <span class="down" id="goDown"></span>
+    </div>
+    <script type="text/javascript">
+    var timer;
+    var distance = 0;
+    var goUp = document.getElementById("goUp");
+    var goDown = document.getElementById("goDown");
+    var pic = document.getElementById("pic");
+    goUp.onmouseover = function() {
+        clearInterval(timer);
+        timer = setInterval(function() {
+            distance += 2;
+            if (distance <= 0) {
+                pic.style.top = distance + "px";
+            } else {
+                clearInterval(timer);
+            }
+        }, 10);
+    }
+
+    goDown.onmouseover = function() {
+        clearInterval(timer);
+        timer = setInterval(function() {
+            distance -= 2;
+            if (distance >= -1070) {
+                pic.style.top = distance + "px";
+            } else {
+                clearInterval(timer);
+            }
+        }, 10);
+    }
+
+    goUp.parentNode.onmouseout = function() {
+        clearInterval(timer);
+    }
+    </script>
+</body>
+
+</html>

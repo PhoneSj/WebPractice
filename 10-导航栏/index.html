@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>tab导航</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style-type: none;
+    }
+    
+    .wrap {
+        width: 1000px;
+        height: 475px;
+        margin: 0 auto;
+        margin-top: 100px;
+    }
+    
+    .tab {
+        width: 320px;
+        height: 36px;
+        border: 1px solid #ddd;
+    }
+    
+    .tab li {
+        width: 80px;
+        height: 34px;
+        line-height: 30px;
+        float: left;
+        text-align: center;
+        border-top: 4px solid #fff;
+        cursor: pointer;
+    }
+    
+    .tab li.active {
+        border-top: 4px solid red;
+    }
+    
+    .products {
+        width: 1002px;
+        height: 476px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+    }
+    </style>
+    <script src="jquery-1.12.2.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(".tab>li").mouseenter(function() {
+            $(this).siblings("li").removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).index("li");
+            // $(".products>li").eq(index).show().siblings().hide();
+            $(".products>li:eq(" + index + ")").show().siblings().hide();
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <ul class="tab">
+            <li class="tab-item active">国际大牌</li>
+            <li class="tab-item">国妆名品</li>
+            <li class="tab-item">清洁用品</li>
+            <li class="tab-item">男士精品</li>
+        </ul>
+        <ul class="products">
+            <li><img src="img/guojidapai.jpg" alt=""></li>
+            <li><img src="img/guozhuangmingpin.jpg" alt=""></li>
+            <li><img src="img/qingjieyongpin.jpg" alt=""></li>
+            <li><img src="img/nanshijingpin.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+
+</html>

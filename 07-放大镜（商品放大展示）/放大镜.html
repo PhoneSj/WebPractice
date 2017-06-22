@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>放大镜</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .box {
+        width: 350px;
+        height: 350px;
+        border: 1px solid #ccc;
+        margin: 100px;
+        position: relative;
+    }
+    
+    .small {
+        position: relative;
+    }
+    
+    .big {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: 0;
+        left: 360px;
+        border: 1px solid #ccc;
+        overflow: hidden;
+        display: none;
+    }
+    
+    .mask {
+        width: 175px;
+        height: 175px;
+        background-color: rgba(255, 255, 0, 0.4);
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: move;
+        display: none;
+    }
+    
+    .big img {
+        position: absolute;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="box">
+        <div id="smallBox" class="samll">
+            <img src="img/001.jpg" alt="" width="350">
+            <div id="mask" class="mask"></div>
+        </div>
+        <div id="bigBox" class="big">
+            <img src="img/0001.jpg" alt="" width="800">
+        </div>
+    </div>
+    <script type="text/javascript">
+    var box = document.getElementById("box");
+    var smallBox = document.getElementById("smallBox");
+    var bigBox = document.getElementById("bigBox");
+    var mask = document.getElementById("mask");
+    var bigImg = bigBox.children[0];
+
+    smallBox.onmouseout = function() {
+        bigBox.style.display = "none";
+        mask.style.display = "none";
+    }
+
+    smallBox.onmouseover = function() {
+        bigBox.style.display = "block";
+        mask.style.display = "block";
+    }
+
+    smallBox.onmousemove = function(event) {
+
+        var event = event || window.event;
+        //鼠标在页面上的坐标
+        var pageX = event.pageX || event.clientX + document.documentElement.scrollLeft;
+        var pageY = event.pageY || event.clientY + document.documentElement.scrollTop;
+        //box有定位，所有这里使用box的坐标，而不是smallBox。
+        var curX = pageX - box.offsetLeft;
+        var curY = pageY - box.offsetTop;
+        //设置遮罩位置
+        var maskX = curX - mask.offsetWidth / 2;
+        var maskY = curY - mask.offsetHeight / 2;
+        //矫正遮罩位置
+        maskX = maskX > 0 ? maskX : 0;
+        maskY = maskY > 0 ? maskY : 0;
+        maskX = maskX < smallBox.offsetWidth - mask.offsetWidth ? maskX : (smallBox.offsetWidth - mask.offsetWidth);
+        maskY = maskY < smallBox.offsetHeight - mask.offsetHeight ? maskY : (smallBox.offsetHeight - mask.offsetHeight);
+        //更新遮罩的位置
+        mask.style.left = maskX + "px";
+        mask.style.top = maskY + "px";
+
+        //移动比例
+        var bigBoxMoveDistance = bigImg.offsetWidth - bigBox.offsetWidth;
+        var maskMoveDistance = smallBox.offsetWidth - mask.offsetWidth;
+        var rate = bigBoxMoveDistance / maskMoveDistance;
+        //更新大图位置
+        bigImg.style.left = -rate * maskX + "px";
+        bigImg.style.top = -rate * maskY + "px";
+    }
+    </script>
+</body>
+
+</html>

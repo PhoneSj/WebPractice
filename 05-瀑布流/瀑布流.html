@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>瀑布流</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .box {
+        float: left;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class="box"><img src="img/P_000.jpg" alt=""></div>
+        <div class="box"><img src="img/P_001.jpg" alt=""></div>
+        <div class="box"><img src="img/P_002.jpg" alt=""></div>
+        <div class="box"><img src="img/P_003.jpg" alt=""></div>
+        <div class="box"><img src="img/P_004.jpg" alt=""></div>
+        <div class="box"><img src="img/P_005.jpg" alt=""></div>
+        <div class="box"><img src="img/P_006.jpg" alt=""></div>
+        <div class="box"><img src="img/P_007.jpg" alt=""></div>
+        <div class="box"><img src="img/P_008.jpg" alt=""></div>
+        <div class="box"><img src="img/P_009.jpg" alt=""></div>
+        <div class="box"><img src="img/P_010.jpg" alt=""></div>
+        <div class="box"><img src="img/P_011.jpg" alt=""></div>
+        <div class="box"><img src="img/P_012.jpg" alt=""></div>
+        <div class="box"><img src="img/P_013.jpg" alt=""></div>
+        <div class="box"><img src="img/P_014.jpg" alt=""></div>
+        <div class="box"><img src="img/P_015.jpg" alt=""></div>
+        <div class="box"><img src="img/P_016.jpg" alt=""></div>
+        <div class="box"><img src="img/P_017.jpg" alt=""></div>
+        <div class="box"><img src="img/P_018.jpg" alt=""></div>
+        <div class="box"><img src="img/P_019.jpg" alt=""></div>
+    </div>
+    <script type="text/javascript">
+    window.onload = function() {
+        var container = document.getElementById("container");
+        var boxes = container.children;
+        //页面宽度
+        var pageWidth = window.innerWidth;
+        //图片盒子宽度
+        var boxWidth = boxes[0].offsetWidth;
+        //页面图片的列数
+        var column = Math.floor(pageWidth / boxWidth);
+        var arrHeight = []; //每一列高度数组
+        waterfall();
+
+        function waterfall() {
+            for (var i = 0; i < boxes.length; i++) {
+                if (i < column) {
+                    arrHeight[i] = boxes[i].offsetHeight;
+                } else {
+                    var minHeight = getMin(arrHeight).value;
+                    var minHeightIndex = getMin(arrHeight).index;
+
+                    boxes[i].style.position = "absolute";
+                    boxes[i].style.top = minHeight + "px";
+                    boxes[i].style.left = boxes[minHeightIndex].offsetLeft + "px";
+
+                    arrHeight[minHeightIndex] = minHeight + boxes[i].offsetHeight;
+                }
+            }
+        }
+        window.onscroll = function() {
+            if (bottomed()) {
+                var json = [{
+                    "src": "img/P_000.jpg"
+                }, {
+                    "src": "img/P_001.jpg"
+                }, {
+                    "src": "img/P_002.jpg"
+                }, {
+                    "src": "img/P_003.jpg"
+                }, {
+                    "src": "img/P_004.jpg"
+                }, {
+                    "src": "img/P_005.jpg"
+                }, {
+                    "src": "img/P_006.jpg"
+                }, {
+                    "src": "img/P_007.jpg"
+                }, {
+                    "src": "img/P_008.jpg"
+                }, {
+                    "src": "img/P_009.jpg"
+                }, {
+                    "src": "img/P_010.jpg"
+                }, {
+                    "src": "img/P_011.jpg"
+                }, {
+                    "src": "img/P_012.jpg"
+                }, {
+                    "src": "img/P_013.jpg"
+                }, {
+                    "src": "img/P_014.jpg"
+                }, {
+                    "src": "img/P_015.jpg"
+                }, {
+                    "src": "img/P_016.jpg"
+                }, {
+                    "src": "img/P_017.jpg"
+                }, {
+                    "src": "img/P_018.jpg"
+                }, {
+                    "src": "img/P_019.jpg"
+                }];
+                for (var i = 0; i < json.length; i++) {
+                    var div = document.createElement("div");
+                    div.className = "box";
+                    container.appendChild(div);
+                    var img = document.createElement("img");
+                    img.src = json[i].src;
+                    div.appendChild(img);
+                }
+                waterfall();
+            }
+        }
+
+        function bottomed() {
+            var clientHeight = window.innerHeight;
+            var scrollTop = window.pageYOffset;
+            var lastBox = boxes[boxes.length - 1];
+            var lastBoxTop = lastBox.offsetTop;
+            if (clientHeight + scrollTop > lastBoxTop) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+
+
+    function getMin(arr) {
+        var min = {};
+        min.index = 0;
+        min.value = arr[min.index];
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] < min.value) {
+                min.index = i;
+                min.value = arr[i];
+            }
+        }
+        return min;
+    }
+    </script>
+</body>
+
+</html>
